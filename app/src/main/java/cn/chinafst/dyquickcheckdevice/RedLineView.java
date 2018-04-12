@@ -28,6 +28,8 @@ public class RedLineView extends ImageView {
         wm.getDefaultDisplay().getMetrics(dm);
         width = dm.widthPixels;
         height = dm.heightPixels;
+
+        
     }
 
     @Override
