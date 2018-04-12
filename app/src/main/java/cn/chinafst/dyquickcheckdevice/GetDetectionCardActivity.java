@@ -4,6 +4,7 @@ package cn.chinafst.dyquickcheckdevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.device.ScanDevice;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -43,6 +45,14 @@ public class GetDetectionCardActivity extends AppCompatActivity {
         surfaceView = findViewById(R.id.sv_idcard);
         redLineView = findViewById(R.id.rv_card);
 
+        closeScan();
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         SurfaceHolder holder = surfaceView.getHolder();
         holder.setKeepScreenOn(true);
         holder.addCallback(new MySurfaceCallback());
@@ -52,6 +62,20 @@ public class GetDetectionCardActivity extends AppCompatActivity {
         wm.getDefaultDisplay().getMetrics(dm);
         width = dm.widthPixels;
         height = dm.heightPixels;
+
+    }
+
+    private void closeScan() {
+        if(CheckDeviceApplication.isDesign){
+            ScanDevice sm=new ScanDevice();
+            if(sm.isScanOpened()){
+                sm.stopScan();
+                sm.closeScan();
+
+                Log.e("openCscan","摄像头关闭");
+            }
+        }
+
     }
 
     class MySurfaceCallback implements SurfaceHolder.Callback {
@@ -59,6 +83,8 @@ public class GetDetectionCardActivity extends AppCompatActivity {
 
         @Override
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
+
 
             try {
                 camera = Camera.open();
@@ -95,6 +121,7 @@ public class GetDetectionCardActivity extends AppCompatActivity {
                 });
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
 
