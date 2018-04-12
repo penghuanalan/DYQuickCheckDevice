@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainCenter">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/scan_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/commonPading"
+            android:clickable="true"
+            android:drawableRight="@drawable/scan_black"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:onClick="onClick"
+            android:gravity="center_vertical"
+            android:padding="@dimen/commonPadingMid"
+            android:text="@string/sampleInf"
+            android:textColor="@color/mainMenuTextColor"
+            android:textSize="@dimen/textMiddle"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="right"
+                android:padding="@dimen/commonPadingMid"
+                android:text="@string/itemName"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMin" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mainCenter" />
+
+            <TextView
+                android:id="@+id/tv_sample_task"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:clickable="true"
+                android:drawableRight="@drawable/arrow_right"
+                android:onClick="onClick"
+                android:padding="@dimen/commonPadingMid"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMiddle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/commonPadingMix"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:layout_weight="3"
+                android:background="@color/white"
+                android:gravity="right"
+                android:padding="@dimen/commonPadingMid"
+                android:text="@string/sampleName"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMiddle" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mainCenter" />
+
+            <TextView
+                android:id="@+id/tv_sample_01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:clickable="true"
+                android:drawableRight="@drawable/arrow_right"
+                android:onClick="onClick"
+                android:padding="@dimen/commonPadingMid"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMiddle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_business_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="3"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:padding="@dimen/commonPadingMid"
+                    android:text="@string/limiteValue"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mainCenter" />
+
+                <TextView
+                    android:id="@+id/tv_sample_04"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="5"
+                    android:background="@color/white"
+                    android:padding="@dimen/commonPadingMid"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="3"
+                    android:background="@color/white"
+                    android:gravity="right"
+                    android:padding="@dimen/commonPadingMid"
+                    android:text="@string/standNmae"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mainCenter" />
+
+                <TextView
+                    android:id="@+id/tv_sample_02"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="5"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onClick"
+                    android:padding="@dimen/commonPadingMid"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mainCenter" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/commonPading"
+            android:gravity="left"
+            android:padding="@dimen/commonPadingMid"
+            android:text="@string/cardImage"
+            android:textColor="@color/mainMenuTextColor"
+            android:textSize="@dimen/textMiddle"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/ll_sin"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClick">
+
+
+            <ImageView
+                android:id="@+id/iv_singin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/commonPadingMix"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/sign_new" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/commonCancle"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:text="@string/cancle" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/commonSave"
+                android:onClick="onClick"
+                android:text="@string/save" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

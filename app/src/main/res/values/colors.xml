@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="mainBackColor">#0095ff</color><!--主背景栏-->
+    <color name="mainCenterColor">#cccccc</color><!--主详情背景-->
+    <color name="mainMenuTextColor">#000000</color><!--主字体颜色-->
+    <color name="bottomColor">#FFEDEDED</color><!--底部菜单-->
+    <color name="white">#ffffff</color><!--白色-->
+    <color name="mainCenter">#e6e6e6</color>
+    <color name="menuColor">#008000</color>
+    <color name="textCommonColor">#FF7E7D7D</color>
+    <color name="commonCancle">#b3b3b3</color><!--取消-->
+    <color name="commonSave">#00af66</color><!--保存-->
+    <color name="botText">#0095ff</color><!--保存-->
+    <color name="textTest">#666666</color><!--保存-->
+
+
+
+
+</resources>

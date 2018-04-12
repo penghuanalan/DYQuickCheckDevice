@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--设置全局通用尺寸-->
+    <dimen name="padingMax">20dp</dimen><!--z最大间距-->
+    <dimen name="commonPading">10dp</dimen><!--通用间距大-->
+    <dimen name="commonPadingMid">5dp</dimen><!--通用间距中-->
+    <dimen name="commonPadingMix">1dp</dimen><!--通用间距小-->
+    <dimen name="textMax">16sp</dimen><!--文字大-->
+    <dimen name="textMiddle">14sp</dimen><!--文字中-->
+    <dimen name="textMin">14sp</dimen><!--文字小-->
+    <dimen name="listViewSpace">5dp</dimen><!--listView的垂直间距-->
+ <!--   <dimen name="leftPaind">3</dimen>&lt;!&ndash;单行文本左&ndash;&gt;
+    <dimen name="rightPaind">5</dimen>&lt;!&ndash;单行文本右&ndash;&gt;-->
+    <dimen name="radioButtonSize">20dp</dimen><!--单选按钮大小-->
+</resources>
+
