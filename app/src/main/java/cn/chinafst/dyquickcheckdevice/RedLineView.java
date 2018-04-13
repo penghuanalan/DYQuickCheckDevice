@@ -29,7 +29,7 @@ public class RedLineView extends ImageView {
         width = dm.widthPixels;
         height = dm.heightPixels;
 
-        
+
     }
 
     @Override

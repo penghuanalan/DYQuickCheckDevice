@@ -1,14 +1,17 @@
 package cn.chinafst.dyquickcheckdevice;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.device.ScanDevice;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -29,12 +32,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class GetDetectionCardActivity extends AppCompatActivity {
+public class GetDetectionCardActivity extends AppCompatActivity implements View.OnClickListener{
 
     private SurfaceView surfaceView;
     private RedLineView redLineView;
     private Camera camera;
     int width,height;
+    private static AsyncTask task;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,21 +82,10 @@ public class GetDetectionCardActivity extends AppCompatActivity {
 
     }
 
-    class MySurfaceCallback implements SurfaceHolder.Callback {
-
-
-        @Override
-        public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
-
-
-            try {
-                camera = Camera.open();
-                camera.setDisplayOrientation(90);//相机旋转90度
-                Camera.Parameters params = camera.getParameters();
-                camera.setPreviewDisplay(surfaceView.getHolder());
-                camera.startPreview();
-
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_take_pic:
                 camera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
                     public void onAutoFocus(boolean b, Camera camera) {
@@ -108,7 +101,9 @@ public class GetDetectionCardActivity extends AppCompatActivity {
                                         Matrix matrix = new Matrix();
                                         matrix.postRotate((float)90.0);
                                         Bitmap rotaBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(), matrix, false);
-                                        Bitmap rectBitmap = Bitmap.createBitmap(rotaBitmap, width/2+200, height/2-200,  200, 800);//截
+                                        mBitmap.recycle();
+                                        Bitmap rectBitmap = Bitmap.createBitmap(rotaBitmap, width/2+450, height/2-200,  300, 800);//截
+                                        rotaBitmap.recycle();
 
                                         camera.stopPreview();
                                         savePic(rectBitmap);
@@ -119,11 +114,36 @@ public class GetDetectionCardActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+                break;
+                default:break;
+        }
+    }
+
+
+    class MySurfaceCallback implements SurfaceHolder.Callback {
+
+        @Override
+        public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
+
+
+            try {
+                camera = Camera.open();
+                camera.setDisplayOrientation(90);//相机旋转90度
+                Camera.Parameters params = camera.getParameters();
+                camera.setPreviewDisplay(surfaceView.getHolder());
+                camera.startPreview();
+
+
             } catch (IOException e) {
                 e.printStackTrace();
 
             }
         }
+
+
+
 
         @Override
         public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
@@ -158,7 +178,7 @@ public class GetDetectionCardActivity extends AppCompatActivity {
                     mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                     bos.flush();
                     bos.close();
-
+                    mBitmap.recycle();
                     Intent intent= new Intent();
                     intent.putExtra("path",picName);
                     setResult(RESULT_OK,intent);

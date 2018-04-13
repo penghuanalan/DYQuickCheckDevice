@@ -48,4 +48,5 @@ dependencies {
     implementation 'pub.devrel:easypermissions:1.2.0'
     implementation files('src/main/libs/scanSDK.jar')
     implementation files('src/main/libs/zypos1.5.jar')
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

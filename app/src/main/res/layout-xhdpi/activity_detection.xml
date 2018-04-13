@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/commonPading"
             android:clickable="true"
-            android:drawableRight="@drawable/scan_black"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:onClick="onClick"
@@ -49,7 +48,7 @@
                 android:background="@color/mainCenter" />
 
             <TextView
-                android:id="@+id/tv_sample_task"
+                android:id="@+id/tv_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/commonPadingMix"
@@ -88,7 +87,7 @@
                 android:background="@color/mainCenter" />
 
             <TextView
-                android:id="@+id/tv_sample_01"
+                android:id="@+id/tv_sample"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/commonPadingMix"
@@ -133,7 +132,7 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_sample_04"
+                    android:id="@+id/tv_limit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
@@ -169,7 +168,7 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_sample_02"
+                    android:id="@+id/tv_stand"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
@@ -226,7 +225,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+      <!--  <LinearLayout
             android:id="@+id/ll_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -251,6 +250,12 @@
                 android:onClick="onClick"
                 android:text="@string/save" />
 
-        </LinearLayout>
+        </LinearLayout>-->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+
     </LinearLayout>
 </ScrollView>
