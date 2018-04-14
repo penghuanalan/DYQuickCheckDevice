@@ -27,40 +27,40 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+            android:padding="@dimen/commonPadingMid"
+            android:text="@string/itemName"
+            android:textColor="@color/mainMenuTextColor"
+            android:textSize="@dimen/textMin" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/mainCenter" />
+
+        <TextView
+            android:id="@+id/tv_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/commonPadingMix"
+            android:layout_weight="5"
             android:background="@color/white"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="right"
-                android:padding="@dimen/commonPadingMid"
-                android:text="@string/itemName"
-                android:textColor="@color/mainMenuTextColor"
-                android:textSize="@dimen/textMin" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/mainCenter" />
-
-            <TextView
-                android:id="@+id/tv_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/commonPadingMix"
-                android:layout_weight="5"
-                android:background="@color/white"
-                android:clickable="true"
-                android:drawableRight="@drawable/arrow_right"
-                android:onClick="onClick"
-                android:padding="@dimen/commonPadingMid"
-                android:textColor="@color/mainMenuTextColor"
-                android:textSize="@dimen/textMiddle" />
-        </LinearLayout>
+            android:clickable="true"
+            android:drawableRight="@drawable/arrow_right"
+            android:onClick="onClick"
+            android:padding="@dimen/commonPadingMid"
+            android:textColor="@color/mainMenuTextColor"
+            android:textSize="@dimen/textMiddle" />
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +102,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_business_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -122,7 +121,7 @@
                     android:background="@color/white"
                     android:gravity="right"
                     android:padding="@dimen/commonPadingMid"
-                    android:text="@string/limiteValue"
+                    android:text="@string/sampleNum"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMiddle" />
 
@@ -132,7 +131,7 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_limit"
+                    android:id="@+id/tv_sample_num"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
@@ -158,7 +157,7 @@
                     android:background="@color/white"
                     android:gravity="right"
                     android:padding="@dimen/commonPadingMid"
-                    android:text="@string/standNmae"
+                    android:text="@string/sampleDate"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMiddle" />
 
@@ -168,7 +167,7 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_stand"
+                    android:id="@+id/tv_sample_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
@@ -183,11 +182,107 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/mainCenter" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="right"
+                    android:padding="@dimen/commonPadingMid"
+                    android:text="@string/unitName"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMin" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mainCenter" />
+
+                <TextView
+                    android:id="@+id/tv_unit_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="5"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/arrow_right"
+                    android:onClick="onClick"
+                    android:padding="@dimen/commonPadingMid"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="right"
+                    android:padding="@dimen/commonPadingMid"
+                    android:text="@string/opeName"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMin" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mainCenter" />
+
+                <TextView
+                    android:id="@+id/tv_ope_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="5"
+                    android:background="@color/white"
+                    android:onClick="onClick"
+                    android:padding="@dimen/commonPadingMid"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="right"
+                    android:padding="@dimen/commonPadingMid"
+                    android:text="@string/opeNum"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMin" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/mainCenter" />
+
+                <TextView
+                    android:id="@+id/tv_ope_num"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
+                    android:layout_weight="5"
+                    android:background="@color/white"
+                    android:onClick="onClick"
+                    android:padding="@dimen/commonPadingMid"
+                    android:textColor="@color/mainMenuTextColor"
+                    android:textSize="@dimen/textMiddle" />
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -254,8 +349,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chartView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            />
+            android:layout_height="200dp" />
 
     </LinearLayout>
 </ScrollView>

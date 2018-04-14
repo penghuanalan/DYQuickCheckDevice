@@ -30,7 +30,7 @@ private   PosApi mPosApi = null;
         }else{
             isDesign=false;
         }
-
+            GreenDaoUtils.initDatabase();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)

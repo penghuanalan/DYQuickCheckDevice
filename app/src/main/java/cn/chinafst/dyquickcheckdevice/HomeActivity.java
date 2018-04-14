@@ -35,8 +35,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this,DetectionActivity.class));
                         break;
                     case 1:
+                        startActivity(new Intent(HomeActivity.this,DetectionActivity.class));
                         break;
                     case 2:
+                        startActivity(new Intent(HomeActivity.this, CheckRecordActivity.class));
                         break;
                     case 3:
                         break;
