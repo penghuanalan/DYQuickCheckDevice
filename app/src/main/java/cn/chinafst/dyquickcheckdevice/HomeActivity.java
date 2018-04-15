@@ -41,8 +41,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, CheckRecordActivity.class));
                         break;
                     case 3:
+                        startActivity(new Intent(HomeActivity.this,FoodItemActivity.class));
                         break;
                     case 4:
+                        startActivity(new Intent(HomeActivity.this,CheckItemActivity.class));
                         break;
                         default:break;
 

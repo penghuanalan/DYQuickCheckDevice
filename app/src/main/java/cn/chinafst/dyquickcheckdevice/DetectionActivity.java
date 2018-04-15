@@ -151,12 +151,12 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 //  Toast.makeText(DetectionActivity.this,"获取检测卡图片",Toast.LENGTH_SHORT).show();
                 //  startActivity(new Intent(DetectionActivity.this,GetDetectionCardActivity.class));
                 //先将扫描关闭
-                if (CheckDeviceApplication.isDesign) {
+                /*if (CheckDeviceApplication.isDesign) {
                     if (sm.isScanOpened()) {
                         sm.stopScan();
                         sm.closeScan();
                     }
-                }
+                }*/
                 startActivityForResult(new Intent(DetectionActivity.this, GetDetectionCardActivity.class), 100);
                 break;
             default:
@@ -182,13 +182,13 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                     imageView.setImageBitmap(bitmap);
                     sacnLine(bitmap);
                     //打印
-                    doPrint();
+                   // doPrint();
 
-                    if (CheckDeviceApplication.isDesign) {
+                   /* if (CheckDeviceApplication.isDesign) {
                         if (!sm.isScanOpened()) {
                             sm.openScan();
                         }
-                    }
+                    }*/
                 }
                 break;
             default:
@@ -290,10 +290,10 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onPause() {
         super.onPause();
-        if (sm != null) {
+      /*  if (sm != null) {
             sm.stopScan();
             unregisterReceiver(mScanReceiver);
-        }
+        }*/
     }
 
     //扫描
@@ -427,6 +427,11 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             //销毁接口
             if (mPrintQueue != null) {
                 mPrintQueue.close();
+            }
+
+            if (sm != null) {
+                sm.stopScan();
+                unregisterReceiver(mScanReceiver);
             }
 
             if (mApi != null) {

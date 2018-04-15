@@ -36,6 +36,8 @@
         <activity android:name=".DetectionActivity"/>
         <activity android:name=".GetDetectionCardActivity"/>
         <activity android:name=".CheckRecordActivity"/>
+        <activity android:name=".FoodItemActivity"/>
+        <activity android:name=".CheckItemActivity"/>
     </application>
 
 </manifest>
