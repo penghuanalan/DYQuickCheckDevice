@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.UUID;
 
 import cn.chinafst.dyquickcheckdevice.bean.CheckRecordBean;
+import cn.chinafst.dyquickcheckdevice.bean.MyFFT;
 import okhttp3.Call;
 import pub.devrel.easypermissions.EasyPermissions;
 import zyapi.PrintQueue;
@@ -62,6 +63,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     private PrintQueue mPrintQueue = null;
     private String checkTime = "";
     private String uuid = "";
+    private String foodCode="",sampleNo="";
 
     //抽样单号
     private String sampleNum="";
@@ -78,7 +80,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             initScan();
             initPrint();
         }
-
         UUID tem = UUID.randomUUID();
 
         uuid = tem.toString();
@@ -130,6 +131,11 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         super.onResume();
 
         if (CheckDeviceApplication.isDesign) {
+
+               /* initScan();
+                initPrint();*/
+
+
             IntentFilter filter = new IntentFilter();
             filter.addAction(SCAN_ACTION);
             registerReceiver(mScanReceiver, filter);
@@ -170,7 +176,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
 
             case 100:
                 if (resultCode == RESULT_OK) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date curDate = new Date(System.currentTimeMillis());
                     checkTime = formatter.format(curDate);
 
@@ -230,7 +236,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(getApplicationContext(), "未找到相应信息,请重新扫描", Toast.LENGTH_SHORT).show();
             }
 
-
             sm.stopScan();
         }
 
@@ -265,7 +270,10 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                                         String sampleNmae = detail.getString("sampleName");
                                         //  String limit=detail.getString("checkValue");
                                         String stand = detail.getString("checkItem");
-
+//
+                                        //foodCode,sampleNo;平台获取的
+                                        foodCode=detail.getString("foodCode");
+                                        sampleNo=detail.getString("sampleNO");
                                         tvItem.setText(item);
                                         tvSample.setText(sampleNmae);
                                         //  tvLimit.setText(limit);
@@ -331,6 +339,29 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             protected void onPostExecute(String[] s) {
 
 
+                double[] a=new double[ s.length];
+                double[] b=new double[s.length];
+
+                for(int i=0;i<s.length;i++) {
+                    a[i]=Double.parseDouble(s[i]);
+                    b[i]=0;
+                }
+                new MyFFT().fft(s.length, a, b, 1);
+
+                int ij=s.length/6;
+                int ii=s.length-ij;
+                for(int j=ij;j<ii;j++) {
+                    a[j]=0;
+                    b[j]=0;
+                }
+                new MyFFT().fft(s.length, a,b, -1);
+
+
+
+
+
+
+
                 Log.e("数据", Arrays.toString(s));
                 ArrayList<String> xVals = new ArrayList<String>();
                 for (int i = 0; i < s.length; i++) {
@@ -338,7 +369,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 }
                 ArrayList<Entry> yVals = new ArrayList<Entry>();
                 for (int i = 0; i < s.length; i++) {
-                    yVals.add(new Entry(i, Float.parseFloat(s[i]) * 10));
+                    yVals.add(new Entry(i, (float) a[i]));
 
                 }
                 LineDataSet set1 = new LineDataSet(yVals, "胶体金曲线图");
@@ -354,6 +385,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
 
                 saveCheckRecord();
 
+                upLoadRecord();
 
             }
         }.execute(bitmap);
@@ -365,12 +397,16 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         CheckRecordBean checkRecordBean = new CheckRecordBean();
         checkRecordBean.setId(uuid);
         checkRecordBean.setFood_name(tvSample.getText().toString().trim());
+
+        //临时使用
+        checkRecordBean.setFood_id(foodCode);
         checkRecordBean.setItem_name(tvItem.getText().toString().trim());
         checkRecordBean.setCheck_date(checkTime);
         checkRecordBean.setReg_name(tvUnitNmae.getText().toString().trim());
         checkRecordBean.setOpe_shop_name(tvOpeName.getText().toString().trim());
         checkRecordBean.setOpe_shop_code(tvOpeNum.getText().toString().trim());
         checkRecordBean.setSampling_no(sampleNum);
+        checkRecordBean.setBatch_number(sampleNo);
 
         //检测结果相关
         checkRecordBean.setConclusion("合格");
@@ -502,34 +538,42 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void upLoadRecord(){
+        List<HashMap<String,String>> items=new ArrayList<>();
         HashMap<String,String> map= new HashMap<>();
-        map.put("sampleNO",sampleNum);
+        map.put("sampleNo",sampleNo);
         map.put("checkResult","阴性");
+        map.put("foodCode",foodCode);
+        map.put("foodName",tvSample.getText().toString().trim());
+        map.put("checkItemName",tvItem.getText().toString().trim());
+        map.put("checkMethod","胶体金法");
+        map.put("sysCode",uuid);
         map.put("checkConclusion","合格");
         map.put("checkDate",checkTime);
-
         HashMap<String,Object> second=new HashMap<>();
         second.put("sampleNO",sampleNum);
-        second.put("checkResultList",map);
+        items.add(map);
 
-        HashMap<String,Object> first=new HashMap<>();
+        second.put("checkResultList",items);
+        ArrayList<HashMap<String,Object>> list=new ArrayList<>();
+        list.add(second);
+        HashMap<String,List<HashMap<String,Object>>> map1 =new HashMap<>();
 
-        first.put("result",second);
-
+        map1.put("result",list);
         Gson gson = new Gson();
-        String s = gson.toJson(first);
+        String s = gson.toJson(map1);
+        Log.e("上传",s);
 
-        OkHttpUtils.post().addParams("result",s)
+        OkHttpUtils.post().addParams("json",s)
                 .url(Utils.urlBase+"app/upLoadData.do")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                Log.e("上传错误",e.toString());
             }
 
             @Override
             public void onResponse(String response, int id) {
-
+                Log.e("上传",response);
             }
         });
     }

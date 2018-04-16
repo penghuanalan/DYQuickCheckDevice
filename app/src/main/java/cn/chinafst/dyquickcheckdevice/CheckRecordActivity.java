@@ -106,6 +106,12 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
 
                 break;
             case R.id.bt_02:
+                if(selected.size()>0){
+                    Utils.upLoadRecord(selected);
+                }else{
+                    Toast.makeText(getApplicationContext(),"请先选择检测记录",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.bt_03:
                 GreenDaoUtils.getDaoSession().getCheckRecordBeanDao().deleteInTx(selected);

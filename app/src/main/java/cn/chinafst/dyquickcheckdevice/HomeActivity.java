@@ -46,6 +46,10 @@ public class HomeActivity extends AppCompatActivity {
                     case 4:
                         startActivity(new Intent(HomeActivity.this,CheckItemActivity.class));
                         break;
+
+                    case 5:
+                        startActivity(new Intent(HomeActivity.this,StudyVideoActivity.class));
+                        break;
                         default:break;
 
                 }

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.alibaba.fastjson.JSON;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -31,12 +33,14 @@ public class CheckItemActivity extends AppCompatActivity {
     private ArrayList<String> list=new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private SharedPreferences sp;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_item);
         sp=this.getPreferences(MODE_PRIVATE);
+        progressBar=findViewById(R.id.pb_download);
         listView=findViewById(R.id.lv_list_item);
         adapter=new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,list);
         listView.setAdapter(adapter);
@@ -93,5 +97,6 @@ public class CheckItemActivity extends AppCompatActivity {
             list.add(bean.getDetectName());
         }
         adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 }

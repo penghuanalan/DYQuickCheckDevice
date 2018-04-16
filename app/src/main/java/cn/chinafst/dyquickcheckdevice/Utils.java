@@ -1,6 +1,7 @@
 package cn.chinafst.dyquickcheckdevice;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -13,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,47 +25,56 @@ import okhttp3.Call;
 public class Utils {
 
     public static String urlBase = "http://zjdy.chinafst.cn:8085/lezhifda/";
+   // public static String urlBase = "http://17yt461676.iok.la/dyfda2/";
 
 
-    public static void upLoadCheckRecord(List<CheckRecordBean> list) {
 
-        for (CheckRecordBean bean : list) {
+    public static void upLoadRecord(List<CheckRecordBean> orign){
 
-
+        ArrayList<HashMap<String,Object>> list=new ArrayList<>();
+        for(CheckRecordBean bean :orign){
+            List<HashMap<String,String>> items=new ArrayList<>();
+            HashMap<String,Object> second=new HashMap<>();
+            HashMap<String,String> map= new HashMap<>();
+            map.put("sampleNo",bean.getBatch_number());
+            map.put("checkResult",bean.getCheck_result());
+            map.put("foodCode",bean.getFood_id());
+            map.put("foodName",bean.getFood_name());
+            map.put("checkItemName",bean.getItem_name());
+            map.put("checkMethod","胶体金法");
+            map.put("sysCode",bean.getId());
+            map.put("checkConclusion","合格");
+            map.put("checkDate",bean.getCheck_date());
+            second.put("sampleNO",bean.getSampling_no());
+            items.add(map);
+            second.put("checkResultList",items);
+            list.add(second);
         }
+        HashMap<String,List<HashMap<String,Object>>> map1 =new HashMap<>();
 
-/*
-        HashMap<String,String> map= new HashMap<>();
-        map.put("sampleNO",sampleNum);
-        map.put("checkResult","阴性");
-        map.put("checkConclusion","合格");
-        map.put("checkDate",checkTime);
-
-        HashMap<String,Object> second=new HashMap<>();
-        second.put("sampleNO",sampleNum);
-        second.put("checkResultList",map);
-
-        HashMap<String,Object> first=new HashMap<>();
-
-        first.put("result",second);
-
+        map1.put("result",list);
         Gson gson = new Gson();
-        String s = gson.toJson(first);
+        String s = gson.toJson(map1);
+        Log.e("上传",s);
 
-        OkHttpUtils.post().addParams("result",s)
+        OkHttpUtils.post().addParams("json",s)
                 .url(Utils.urlBase+"app/upLoadData.do")
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                Log.e("上传错误",e.toString());
             }
 
             @Override
             public void onResponse(String response, int id) {
-
+                Log.e("上传",response);
             }
-        });*/
+        });
     }
+
+
+
+
 
     public static boolean ExpordCheckReocrd(List<String> list) {
         boolean success;

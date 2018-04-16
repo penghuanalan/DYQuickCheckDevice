@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 
 import com.alibaba.fastjson.JSON;
@@ -30,16 +32,18 @@ public class FoodItemActivity extends AppCompatActivity {
     private ArrayList<String> list=new ArrayList<>();
     private ArrayAdapter<String> adapter;
     private SharedPreferences sp;
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_item);
         sp=this.getPreferences(MODE_PRIVATE);
         listView=findViewById(R.id.lv_list_item);
+        progressBar=findViewById(R.id.pb_download);
         adapter=new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,list);
         listView.setAdapter(adapter);
-        //initData();
-        checkData();
+        initData();
+       // checkData();
     }
 
     private void initData() {
@@ -74,6 +78,7 @@ public class FoodItemActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 checkData();
@@ -90,5 +95,6 @@ public class FoodItemActivity extends AppCompatActivity {
             list.add(bean.getFoodName());
         }
         adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 }
