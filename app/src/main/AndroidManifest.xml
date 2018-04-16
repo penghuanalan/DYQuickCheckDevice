@@ -40,6 +40,7 @@
         <activity android:name=".FoodItemActivity"/>
         <activity android:name=".CheckItemActivity"/>
         <activity android:name=".StudyVideoActivity"/>
+        <activity android:name=".DoScanPicActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

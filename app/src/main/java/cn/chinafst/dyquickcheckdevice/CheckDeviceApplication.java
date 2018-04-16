@@ -2,6 +2,7 @@ package cn.chinafst.dyquickcheckdevice;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 import android.posapi.PosApi;
 
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -39,6 +40,10 @@ private   PosApi mPosApi = null;
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+        // android 7.0系统解决拍照的问题
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
     }
 
     public static Context getAppConText(){

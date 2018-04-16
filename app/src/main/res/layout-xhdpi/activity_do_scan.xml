@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancle"/>
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_c"
+        android:layout_width="match_parent"
+        android:background="@android:color/holo_red_light"
+        android:layout_height="5dp"/>
+    <View
+        android:id="@+id/line_t"
+        android:layout_width="match_parent"
+        android:background="@android:color/holo_red_light"
+        android:layout_height="5dp"/>
+
+
+    <me.pqpo.smartcropperlib.view.CropImageView
+        android:id="@+id/iv_crop"
+        android:layout_above="@id/ll_btn"
+        android:layout_width="match_parent"
+        android:padding="20dp"
+        android:layout_height="match_parent"
+        app:civLineColor="@color/colorPrimary"
+        app:civMagnifierCrossColor="@color/colorPrimaryDark"/>
+
+</RelativeLayout>

@@ -163,7 +163,8 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                         sm.closeScan();
                     }
                 }*/
-                startActivityForResult(new Intent(DetectionActivity.this, GetDetectionCardActivity.class), 100);
+               // startActivityForResult(new Intent(DetectionActivity.this, GetDetectionCardActivity.class), 100);
+                startActivityForResult(new Intent(DetectionActivity.this,DoScanPicActivity.class),200);
                 break;
             default:
                 break;
