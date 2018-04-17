@@ -123,6 +123,7 @@ public class StudyVideoActivity extends AppCompatActivity {
 
                         adapter.notifyDataSetChanged();
                         progressBar.setVisibility(View.GONE);
+
                     }
 
                 } catch (JSONException e) {

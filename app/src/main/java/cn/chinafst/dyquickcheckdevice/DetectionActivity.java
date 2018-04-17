@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -29,11 +28,9 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
@@ -53,17 +50,18 @@ import zyapi.PrintQueue;
 
 public class DetectionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView imageView;
+    private ImageView imageView,imageView2;
     private Context context = this;
     private ScanDevice sm;
     private final static String SCAN_ACTION = "scan.rcv.message";
-    private LineChart chartView;
-    private TextView tvItem, tvSample, tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum;
+    private LineChart chartView,chartView2;
+    private TextView tvItem,tvItem2, tvSample,tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum;
     private PosApi mApi = null;
     private PrintQueue mPrintQueue = null;
     private String checkTime = "";
     private String uuid = "";
-    private String foodCode="",sampleNo="";
+    private String foodCode="",sampleNo="",sampleNo2="";
+    private boolean ifTwoChannel=false;
 
     //抽样单号
     private String sampleNum="";
@@ -80,17 +78,19 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             initScan();
             initPrint();
         }
-        UUID tem = UUID.randomUUID();
-
-        uuid = tem.toString();
-
+        uuid = UUID.randomUUID().toString();
     }
 
     private void initView() {
         imageView = findViewById(R.id.iv_singin);
+        imageView2 = findViewById(R.id.iv_singin2);
+        imageView2.setVisibility(View.GONE);
         chartView = findViewById(R.id.chartView);
+        chartView2 = findViewById(R.id.chartView2);
         tvItem = findViewById(R.id.tv_item);
+        tvItem2 = findViewById(R.id.tv_item2);
         tvSample = findViewById(R.id.tv_sample);
+
 
         tvUnitNmae = findViewById(R.id.tv_unit_name);
         tvOpeName = findViewById(R.id.tv_ope_name);
@@ -101,9 +101,12 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
 
     private void initChartView() {
         chartView.setTouchEnabled(true);
-        //设置是否可以拖拽，缩放
         chartView.setDragEnabled(true);
         chartView.setScaleEnabled(true);
+
+        chartView2.setTouchEnabled(true);
+        chartView2.setDragEnabled(true);
+        chartView2.setScaleEnabled(true);
        /* chartView.getAxisLeft().setAxisMinimum(0);
         chartView.getAxisRight().setAxisMinimum(0);*/
     }
@@ -164,7 +167,17 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                     }
                 }*/
                // startActivityForResult(new Intent(DetectionActivity.this, GetDetectionCardActivity.class), 100);
-                startActivityForResult(new Intent(DetectionActivity.this,DoScanPicActivity.class),200);
+               // startActivityForResult(new Intent(DetectionActivity.this,DoScanPicActivity.class),200);
+                Intent intent;
+                if(ifTwoChannel){
+                     intent= new Intent(DetectionActivity.this,DoScanPicActivity2.class);
+                }else{
+                     intent= new Intent(DetectionActivity.this,DoScanPicActivity.class);
+                }
+
+                intent.putExtra("id",uuid);
+                startActivityForResult(intent,200);
+
                 break;
             default:
                 break;
@@ -198,6 +211,29 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                     }*/
                 }
                 break;
+            case 200:
+                if (requestCode == 200 ) {
+                    if(resultCode==RESULT_OK){
+                        File  tempFile = new File(getExternalCacheDir(), uuid+".jpg");
+                        File  tempFile2 = new File(getExternalCacheDir(), uuid+"_1.jpg");
+                        if(tempFile.exists()){
+                            Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getPath());
+                            imageView.setImageBitmap(bitmap);
+                            sacnLine(bitmap);
+                        }
+                        if(tempFile2.exists()){
+                            Bitmap bitmap = BitmapFactory.decodeFile(tempFile2.getPath());
+                            imageView2.setImageBitmap(bitmap);
+                            sacnLine2(bitmap);
+                        }
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"未获取检测卡",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
+                break;
             default:
                 break;
         }
@@ -215,11 +251,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             byte temp = intent.getByteExtra("barcodeType", (byte) 0);
             String barcodeStr = new String(barocode, 0, barocodelen);
             Log.e("扫描", barcodeStr);
-            //http://zjdy.chinafst.cn:8085/lezhifda/os/java/pub/sampling/detail.shtml?samplingNO=W201804040003
-           /* showScanResult.append("广播输出：");
-            showScanResult.append(barcodeStr);
-            showScanResult.append("\n");*/
-            //       showScanResult.setText(barcodeStr);
 
             if (barcodeStr.contains("samplingNO=")) {
 
@@ -265,7 +296,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                                 if (result.length() > 0) {
                                     JSONObject object = (JSONObject) result.get(0);
                                     JSONArray details = object.getJSONArray("details");
-                                    if (details.length() > 0) {
+                                    if (details.length()==1) {
                                         JSONObject detail = (JSONObject) details.get(0);
                                         String item = detail.getString("checkItem");
                                         String sampleNmae = detail.getString("sampleName");
@@ -278,6 +309,33 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                                         tvItem.setText(item);
                                         tvSample.setText(sampleNmae);
                                         //  tvLimit.setText(limit);
+
+
+                                      tvItem2.setVisibility(View.GONE);
+                                      imageView2.setVisibility(View.GONE);
+                                    }else if(details.length()>=2){
+                                        ifTwoChannel=true;
+                                        imageView2.setVisibility(View.VISIBLE);
+                                        JSONObject detail = (JSONObject) details.get(0);
+                                        String item = detail.getString("checkItem");
+                                        String sampleNmae = detail.getString("sampleName");
+                                        //  String limit=detail.getString("checkValue");
+                                        String stand = detail.getString("checkItem");
+//
+                                        //foodCode,sampleNo;平台获取的
+                                        foodCode=detail.getString("foodCode");
+                                        sampleNo=detail.getString("sampleNO");
+                                        tvItem.setText(item);
+                                        tvSample.setText(sampleNmae);
+
+
+
+                                        JSONObject detail2 = (JSONObject) details.get(1);
+                                        String item2 = detail2.getString("checkItem");
+                                        //foodCode,sampleNo;平台获取的
+                                        sampleNo2=detail2.getString("sampleNO");
+                                        tvItem2.setText(item2);
+
                                     }
                                     tvUnitNmae.setText(object.getString("ckoName"));
                                     tvOpeName.setText(object.getString("cdName"));
@@ -314,27 +372,27 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             protected String[] doInBackground(Bitmap... strings) {
                 int width = strings[0].getWidth() / 2;
                 int height = strings[0].getHeight();
+
+                Log.e("图片信息", strings[0].getWidth()+"---"+ strings[0].getHeight());
                 StringBuffer sb = new StringBuffer();
                 for (int i = 0; i < height; i = i + 4) {
                     sb.append(Color.green(strings[0].getPixel(width, i)) + ",");
                 }
+
+                Log.e("原始数据",sb.toString());
                 String[] split = sb.toString().split(",");
-                String[] tem = new String[70];
-                for (int i = 0; i < 70; i++) {
-                    tem[i] = split[i + 50];
 
+                //603-2277
+
+                int count=(int)(split.length*0.4-10);
+                int length=(int)(split.length*0.2);
+                String[] tem = new String[length];
+                for (int i = 0; i < length; i++) {
+                    tem[i] = split[i + count];
                 }
-
-              /*  for(int i=0;i<tem.length;i++){
-                    tem[i]=
-                }*/
                 return tem;
             }
 
-       /*     @Override
-            protected String[] doInBackground(Bitmap... bitmaps) {
-                return new String[0];
-            }*/
 
             @Override
             protected void onPostExecute(String[] s) {
@@ -356,12 +414,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                     b[j]=0;
                 }
                 new MyFFT().fft(s.length, a,b, -1);
-
-
-
-
-
-
 
                 Log.e("数据", Arrays.toString(s));
                 ArrayList<String> xVals = new ArrayList<String>();
@@ -385,8 +437,88 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 chartView.setData(data);
 
                 saveCheckRecord();
+                //上传数据
+               // upLoadRecord();
 
-                upLoadRecord();
+            }
+        }.execute(bitmap);
+
+    }    //扫描
+    @SuppressLint("StaticFieldLeak")
+    private void sacnLine2(final Bitmap bitmap) {
+
+        new AsyncTask<Bitmap, Integer, String[]>() {
+            @Override
+            protected String[] doInBackground(Bitmap... strings) {
+                int width = strings[0].getWidth() / 2;
+                int height = strings[0].getHeight();
+
+                Log.e("图片信息", strings[0].getWidth()+"---"+ strings[0].getHeight());
+                StringBuffer sb = new StringBuffer();
+                for (int i = 0; i < height; i = i + 4) {
+                    sb.append(Color.green(strings[0].getPixel(width, i)) + ",");
+                }
+
+                Log.e("原始数据",sb.toString());
+                String[] split = sb.toString().split(",");
+
+                //603-2277
+
+                int count=(int)(split.length*0.4-10);
+                int length=(int)(split.length*0.2);
+                String[] tem = new String[length];
+                for (int i = 0; i < length; i++) {
+                    tem[i] = split[i + count];
+                }
+                return tem;
+            }
+
+
+            @Override
+            protected void onPostExecute(String[] s) {
+
+
+                double[] a=new double[ s.length];
+                double[] b=new double[s.length];
+
+                for(int i=0;i<s.length;i++) {
+                    a[i]=Double.parseDouble(s[i]);
+                    b[i]=0;
+                }
+                new MyFFT().fft(s.length, a, b, 1);
+
+                int ij=s.length/6;
+                int ii=s.length-ij;
+                for(int j=ij;j<ii;j++) {
+                    a[j]=0;
+                    b[j]=0;
+                }
+                new MyFFT().fft(s.length, a,b, -1);
+
+                Log.e("数据", Arrays.toString(s));
+                ArrayList<String> xVals = new ArrayList<String>();
+                for (int i = 0; i < s.length; i++) {
+                    xVals.add(i + "");
+                }
+                ArrayList<Entry> yVals = new ArrayList<Entry>();
+                for (int i = 0; i < s.length; i++) {
+                    yVals.add(new Entry(i, (float) a[i]));
+
+                }
+                LineDataSet set1 = new LineDataSet(yVals, "胶体金曲线图2");
+                set1.setDrawValues(false);
+                set1.setCircleRadius(1f);
+
+                List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+                dataSets.add(set1);
+                LineData data = new LineData(set1);
+
+                // set data
+                chartView2.setData(data);
+
+                saveCheckRecord();
+                //上传数据
+               // upLoadRecord();
 
             }
         }.execute(bitmap);

@@ -15,29 +15,20 @@
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
+            android:onClick="onClick"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cancle"/>
 
         <Button
             android:id="@+id/btn_ok"
+            android:onClick="onClick"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/save"/>
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/line_c"
-        android:layout_width="match_parent"
-        android:background="@android:color/holo_red_light"
-        android:layout_height="5dp"/>
-    <View
-        android:id="@+id/line_t"
-        android:layout_width="match_parent"
-        android:background="@android:color/holo_red_light"
-        android:layout_height="5dp"/>
 
 
     <me.pqpo.smartcropperlib.view.CropImageView

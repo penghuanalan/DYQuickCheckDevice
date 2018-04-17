@@ -18,49 +18,13 @@
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:onClick="onClick"
             android:gravity="center_vertical"
+            android:onClick="onClick"
             android:padding="@dimen/commonPadingMid"
             android:text="@string/sampleInf"
             android:textColor="@color/mainMenuTextColor"
             android:textSize="@dimen/textMiddle"
             android:textStyle="bold" />
-
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="right"
-            android:padding="@dimen/commonPadingMid"
-            android:text="@string/itemName"
-            android:textColor="@color/mainMenuTextColor"
-            android:textSize="@dimen/textMin" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/mainCenter" />
-
-        <TextView
-            android:id="@+id/tv_item"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/commonPadingMix"
-            android:layout_weight="5"
-            android:background="@color/white"
-            android:clickable="true"
-            android:drawableRight="@drawable/arrow_right"
-            android:onClick="onClick"
-            android:padding="@dimen/commonPadingMid"
-            android:textColor="@color/mainMenuTextColor"
-            android:textSize="@dimen/textMiddle" />
-    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,14 +36,12 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/commonPadingMix"
                 android:layout_weight="3"
-                android:background="@color/white"
                 android:gravity="right"
                 android:padding="@dimen/commonPadingMid"
-                android:text="@string/sampleName"
+                android:text="@string/unitName"
                 android:textColor="@color/mainMenuTextColor"
-                android:textSize="@dimen/textMiddle" />
+                android:textSize="@dimen/textMin" />
 
             <View
                 android:layout_width="1dp"
@@ -87,7 +49,7 @@
                 android:background="@color/mainCenter" />
 
             <TextView
-                android:id="@+id/tv_sample"
+                android:id="@+id/tv_unit_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/commonPadingMix"
@@ -95,6 +57,76 @@
                 android:background="@color/white"
                 android:clickable="true"
                 android:drawableRight="@drawable/arrow_right"
+                android:onClick="onClick"
+                android:padding="@dimen/commonPadingMid"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMiddle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/commonPadingMix"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="right"
+                android:padding="@dimen/commonPadingMid"
+                android:text="@string/opeName"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMin" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mainCenter" />
+
+            <TextView
+                android:id="@+id/tv_ope_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:onClick="onClick"
+                android:padding="@dimen/commonPadingMid"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMiddle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/commonPadingMix"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="right"
+                android:padding="@dimen/commonPadingMid"
+                android:text="@string/opeNum"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMin" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mainCenter" />
+
+            <TextView
+                android:id="@+id/tv_ope_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:layout_weight="5"
+                android:background="@color/white"
                 android:onClick="onClick"
                 android:padding="@dimen/commonPadingMid"
                 android:textColor="@color/mainMenuTextColor"
@@ -181,23 +213,24 @@
                     android:textSize="@dimen/textMiddle" />
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:layout_marginTop="@dimen/commonPadingMix"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/commonPadingMix"
                     android:layout_weight="3"
+                    android:background="@color/white"
                     android:gravity="right"
                     android:padding="@dimen/commonPadingMid"
-                    android:text="@string/unitName"
+                    android:text="@string/sampleName"
                     android:textColor="@color/mainMenuTextColor"
-                    android:textSize="@dimen/textMin" />
+                    android:textSize="@dimen/textMiddle" />
 
                 <View
                     android:layout_width="1dp"
@@ -205,7 +238,7 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_unit_name"
+                    android:id="@+id/tv_sample"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
@@ -220,7 +253,6 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/commonPadingMix"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal">
@@ -231,7 +263,7 @@
                     android:layout_weight="3"
                     android:gravity="right"
                     android:padding="@dimen/commonPadingMid"
-                    android:text="@string/opeName"
+                    android:text="@string/itemName"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMin" />
 
@@ -241,22 +273,28 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_ope_name"
+                    android:id="@+id/tv_item"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
                     android:layout_weight="5"
                     android:background="@color/white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/arrow_right"
                     android:onClick="onClick"
                     android:padding="@dimen/commonPadingMid"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMiddle" />
             </LinearLayout>
+
+
+
             <LinearLayout
+                android:id="@+id/channel2_item"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginTop="@dimen/commonPadingMix"
                 android:orientation="horizontal">
 
                 <TextView
@@ -265,7 +303,7 @@
                     android:layout_weight="3"
                     android:gravity="right"
                     android:padding="@dimen/commonPadingMid"
-                    android:text="@string/opeNum"
+                    android:text="@string/itemName2"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMin" />
 
@@ -275,17 +313,21 @@
                     android:background="@color/mainCenter" />
 
                 <TextView
-                    android:id="@+id/tv_ope_num"
+                    android:id="@+id/tv_item2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
                     android:layout_weight="5"
                     android:background="@color/white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/arrow_right"
                     android:onClick="onClick"
                     android:padding="@dimen/commonPadingMid"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMiddle" />
             </LinearLayout>
+
+
         </LinearLayout>
 
 
@@ -307,7 +349,8 @@
             android:background="@color/white"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="onClick">
+            android:onClick="onClick"
+            android:orientation="horizontal">
 
 
             <ImageView
@@ -320,39 +363,30 @@
                 android:clickable="true"
                 android:onClick="onClick"
                 android:src="@drawable/sign_new" />
+
+            <ImageView
+                android:id="@+id/iv_singin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/commonPadingMix"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/sign_new" />
         </LinearLayout>
 
 
-      <!--  <LinearLayout
-            android:id="@+id/ll_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_cancle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/commonCancle"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:text="@string/cancle" />
-
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/commonSave"
-                android:onClick="onClick"
-                android:text="@string/save" />
-
-        </LinearLayout>-->
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chartView"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartView2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

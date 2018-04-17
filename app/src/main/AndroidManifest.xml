@@ -41,6 +41,7 @@
         <activity android:name=".CheckItemActivity"/>
         <activity android:name=".StudyVideoActivity"/>
         <activity android:name=".DoScanPicActivity"/>
+        <activity android:name=".DoScanPicActivity2"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
