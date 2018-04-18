@@ -9,7 +9,11 @@ import android.content.IntentFilter;
 import android.device.ScanDevice;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.posapi.PosApi;
@@ -18,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.github.mikephil.charting.charts.LineChart;
@@ -55,13 +60,14 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     private ScanDevice sm;
     private final static String SCAN_ACTION = "scan.rcv.message";
     private LineChart chartView,chartView2;
-    private TextView tvItem,tvItem2, tvSample,tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum;
+    private TextView tvItem,tvItem2, tvSample,tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum,tvResult;
     private PosApi mApi = null;
     private PrintQueue mPrintQueue = null;
     private String checkTime = "";
     private String uuid = "";
     private String foodCode="",sampleNo="",sampleNo2="";
     private boolean ifTwoChannel=false;
+    private LinearLayout llItem2;
 
     //抽样单号
     private String sampleNum="";
@@ -86,23 +92,30 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         imageView2 = findViewById(R.id.iv_singin2);
         imageView2.setVisibility(View.GONE);
         chartView = findViewById(R.id.chartView);
+
         chartView2 = findViewById(R.id.chartView2);
+
+        chartView2.setVisibility(View.GONE);
         tvItem = findViewById(R.id.tv_item);
         tvItem2 = findViewById(R.id.tv_item2);
         tvSample = findViewById(R.id.tv_sample);
 
+        llItem2=findViewById(R.id.channel2_item);
+        llItem2.setVisibility(View.GONE);
 
         tvUnitNmae = findViewById(R.id.tv_unit_name);
         tvOpeName = findViewById(R.id.tv_ope_name);
         tvOpeNum = findViewById(R.id.tv_ope_num);
         tvSampleNum = findViewById(R.id.tv_sample_num);
         tvSampleDate = findViewById(R.id.tv_sample_date);
+        tvResult=findViewById(R.id.tv_check_result);
     }
 
     private void initChartView() {
         chartView.setTouchEnabled(true);
         chartView.setDragEnabled(true);
         chartView.setScaleEnabled(true);
+
 
         chartView2.setTouchEnabled(true);
         chartView2.setDragEnabled(true);
@@ -219,10 +232,54 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                         if(tempFile.exists()){
                             Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getPath());
                             imageView.setImageBitmap(bitmap);
-                            sacnLine(bitmap);
+                            sacnLine3(bitmap);
+
+
+                         /*   //灰度处理
+                            int width = bitmap.getWidth();
+                            int height = bitmap.getHeight();
+                            // 创建目标灰度图像
+                           c= null;
+                            bmpGray = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                            // 创建画布
+                            Canvas c = new Canvas(bmpGray);
+                            Paint paint = new Paint();
+                            ColorMatrix cm = new ColorMatrix();
+                            cm.setSaturation(0);
+                            ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+                            paint.setColorFilter(f);
+                            c.drawBitmap(bitmap, 0, 0, paint);
+                            imageView.setImageBitmap(bmpGray);
+                            sacnLine3(bmpGray);
+
+*/
+                       /*     Bitmap  bmpGray = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),Bitmap.Config.RGB_565);
+                            for (int i = 0; i < bitmap.getWidth(); i++) {
+                                for (int j = 0; j < bitmap.getHeight(); j++) {
+                                    final int color = bitmap.getPixel(i,j);
+                                    final int r = (color >> 16) & 0xff;
+                                    final int g = (color >> 8) & 0xff;
+                                    final int b = color & 0xff;
+                                    int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);;
+
+                                    int newPixel = colorToRGB(255, gray, gray, gray);
+                                    bmpGray.setPixel(i,j,newPixel);
+
+                                }
+                            }
+
+                            imageView.setImageBitmap(bmpGray);
+                            sacnLine3(bmpGray);*/
+
+
+
+
+
+
                         }
                         if(tempFile2.exists()){
                             Bitmap bitmap = BitmapFactory.decodeFile(tempFile2.getPath());
+                            imageView2.setVisibility(View.VISIBLE);
                             imageView2.setImageBitmap(bitmap);
                             sacnLine2(bitmap);
                         }
@@ -255,6 +312,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             if (barcodeStr.contains("samplingNO=")) {
 
                 tvItem.setText("");
+                tvItem2.setText("");
                 tvSample.setText("");
                 tvSampleDate.setText("");
                 tvSampleNum.setText("");
@@ -310,12 +368,14 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                                         tvSample.setText(sampleNmae);
                                         //  tvLimit.setText(limit);
 
-
-                                      tvItem2.setVisibility(View.GONE);
+                                        ifTwoChannel=false;
+                                      llItem2.setVisibility(View.GONE);
                                       imageView2.setVisibility(View.GONE);
+                                      chartView2.setVisibility(View.GONE);
                                     }else if(details.length()>=2){
                                         ifTwoChannel=true;
-                                        imageView2.setVisibility(View.VISIBLE);
+                                        llItem2.setVisibility(View.VISIBLE);
+                                        chartView2.setVisibility(View.VISIBLE);
                                         JSONObject detail = (JSONObject) details.get(0);
                                         String item = detail.getString("checkItem");
                                         String sampleNmae = detail.getString("sampleName");
@@ -376,7 +436,15 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 Log.e("图片信息", strings[0].getWidth()+"---"+ strings[0].getHeight());
                 StringBuffer sb = new StringBuffer();
                 for (int i = 0; i < height; i = i + 4) {
-                    sb.append(Color.green(strings[0].getPixel(width, i)) + ",");
+
+                  //  sb.append(Color.green(strings[0].getPixel(width, i)) + ",");
+                   int color= strings[0].getPixel(width, i);
+                    final int r = (color >> 16) & 0xff;
+                    final int g = (color >> 8) & 0xff;
+                    final int b = color & 0xff;
+
+                    int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);;
+                    sb.append(gray+",");
                 }
 
                 Log.e("原始数据",sb.toString());
@@ -524,6 +592,148 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         }.execute(bitmap);
 
     }
+
+
+    //扫描
+    @SuppressLint("StaticFieldLeak")
+    private void sacnLine3(final Bitmap bitmap) {
+
+        new AsyncTask<Bitmap, Integer, String[]>() {
+            @Override
+            protected String[] doInBackground(Bitmap... strings) {
+                int width = strings[0].getWidth();
+                int height = strings[0].getHeight();
+
+                Log.e("图片信息", strings[0].getWidth()+"---"+ strings[0].getHeight());
+                StringBuffer sb = new StringBuffer();
+               /* for (int i = 0; i < height; i = i + 4) {
+                    sb.append(Color.green(strings[0].getPixel(width, i)) + ",");
+                }*/
+
+                //这里改为逐行扫描
+                int getHeight=(int)(height*0.38);
+                int endHeight=(int)(height*0.58);
+
+                int getWidght=width/3;
+                int endWidght=width*2/3;
+
+                for(int i=getHeight;i<endHeight;i++){
+                    int count=0;
+                    for(int j=getWidght;j<endWidght;j=j+4){
+                        count=count+  Color.green(strings[0].getPixel(j,i));
+                    }
+                    sb.append(count+",");
+                }
+
+                Log.e("原始数据",sb.toString());
+                String[] split = sb.toString().split(",");
+
+                //603-2277
+
+               /* int count=(int)(split.length*0.4-10);
+                int length=(int)(split.length*0.2);*/
+             /*   String[] tem = new String[split.length];
+                for (int i = 0; i < split.length; i++) {
+                    tem[i] = split[i ];
+                }*/
+
+                return split;
+            }
+
+
+            @Override
+            protected void onPostExecute(String[] s) {
+
+
+                double[] a=new double[ s.length];
+                double[] b=new double[s.length];
+
+                for(int i=0;i<s.length;i++) {
+                    a[i]=Double.parseDouble(s[i]);
+                    b[i]=0;
+                }
+
+                new MyFFT().fft(s.length, a, b, 1);
+
+                int ij=s.length/6;
+                int ii=s.length-ij;
+                for(int j=ij;j<ii;j++) {
+                    a[j]=0;
+                    b[j]=0;
+                }
+                new MyFFT().fft(s.length, a,b, -1);
+
+                Log.e("平滑数据", Arrays.toString(a));
+
+                double[] doubles = DyUtils.dyMath(a);
+              /*  ArrayList<Double> doubles2 = DyUtils.doubles;
+                double[] d=new double[doubles2.size()];
+                for(int i=0;i<doubles2.size();i++){
+                    d[i]=doubles2.get(i);
+                }*/
+
+
+              /*  int[][] waveInfo = DyUtils.getWaveInfo(a, 1, 12);
+
+
+                for(int i=0;i<waveInfo.length;i++){
+                    Log.e("--------------------B",waveInfo[i][0]+","+waveInfo[i][1]+","+waveInfo[i][2]);
+                    //System.out.println(waveInfo[i][0]+","+waveInfo[i][1]+","+waveInfo[i][2]);
+                }*/
+            //    tvResult.setText(waveInfo.length);
+              /*  if(waveInfo.length>=2){
+                    Toast.makeText(getApplicationContext(),"阴性",Toast.LENGTH_SHORT).show();
+                }else if(waveInfo.length==1){
+                    Toast.makeText(getApplicationContext(),"阳性",Toast.LENGTH_SHORT).show();
+                }*/
+
+
+                //Log.e("最终结果",doubles[0]+"----"+doubles[1]);
+
+                ArrayList<Double> doubles1 = DyUtils.doubles;
+
+                double[] d=new double[doubles1.size()];
+
+                for(int i=0;i<d.length;i++){
+                    d[i]=doubles1.get(i);
+                }
+
+                ArrayList<String> xVals = new ArrayList<String>();
+                for (int i = 0; i < s.length; i++) {
+                    xVals.add(i + "");
+                }
+                ArrayList<Entry> yVals = new ArrayList<Entry>();
+                for (int i = 0; i < s.length; i++) {
+                    yVals.add(new Entry(i, (float) a[i]));
+
+                }
+                LineDataSet set1 = new LineDataSet(yVals, "胶体金曲线图");
+                set1.setDrawValues(false);
+                set1.setCircleRadius(1f);
+                set1.setCircleColor(Color.BLUE);
+                set1.setColor(Color.RED);
+                List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+                dataSets.add(set1);
+                LineData data = new LineData(set1);
+
+                // set data
+                chartView.setData(data);
+                chartView.invalidate();
+
+                saveCheckRecord();
+                //上传数据
+                // upLoadRecord();
+
+            }
+        }.execute(bitmap);
+
+    }
+
+
+
+
+
+
 
     private void saveCheckRecord() {
 

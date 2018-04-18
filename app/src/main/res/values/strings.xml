@@ -16,8 +16,8 @@
     <string name="sampleInf">抽样信息</string>
     <string name="sampleName">样品名称</string>
     <string name="sampleName2">样品名称二</string>
-    <string name="itemName">检测项目</string>
-    <string name="itemName2">检测项目二</string>
+    <string name="itemName">通道一检测项目</string>
+    <string name="itemName2">通道二检测项目</string>
     <string name="sampleNum">抽样单号</string>
     <string name="standNmae">检测标准</string>
     <string name="sampleDate">抽样日期</string>
