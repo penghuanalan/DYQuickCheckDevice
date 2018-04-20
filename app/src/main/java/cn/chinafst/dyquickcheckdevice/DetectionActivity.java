@@ -60,7 +60,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     private ScanDevice sm;
     private final static String SCAN_ACTION = "scan.rcv.message";
     private LineChart chartView,chartView2;
-    private TextView tvItem,tvItem2, tvSample,tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum,tvResult;
+    private TextView tvItem,tvItem2, tvSample,tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum,tvResult,tvResult2;
     private PosApi mApi = null;
     private PrintQueue mPrintQueue = null;
     private String checkTime = "";
@@ -109,6 +109,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         tvSampleNum = findViewById(R.id.tv_sample_num);
         tvSampleDate = findViewById(R.id.tv_sample_date);
         tvResult=findViewById(R.id.tv_check_result);
+        tvResult2=findViewById(R.id.tv_check_result2);
     }
 
     private void initChartView() {
@@ -233,49 +234,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                             Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getPath());
                             imageView.setImageBitmap(bitmap);
                             sacnLine3(bitmap);
-
-
-                         /*   //灰度处理
-                            int width = bitmap.getWidth();
-                            int height = bitmap.getHeight();
-                            // 创建目标灰度图像
-                           c= null;
-                            bmpGray = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-                            // 创建画布
-                            Canvas c = new Canvas(bmpGray);
-                            Paint paint = new Paint();
-                            ColorMatrix cm = new ColorMatrix();
-                            cm.setSaturation(0);
-                            ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-                            paint.setColorFilter(f);
-                            c.drawBitmap(bitmap, 0, 0, paint);
-                            imageView.setImageBitmap(bmpGray);
-                            sacnLine3(bmpGray);
-
-*/
-                       /*     Bitmap  bmpGray = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),Bitmap.Config.RGB_565);
-                            for (int i = 0; i < bitmap.getWidth(); i++) {
-                                for (int j = 0; j < bitmap.getHeight(); j++) {
-                                    final int color = bitmap.getPixel(i,j);
-                                    final int r = (color >> 16) & 0xff;
-                                    final int g = (color >> 8) & 0xff;
-                                    final int b = color & 0xff;
-                                    int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);;
-
-                                    int newPixel = colorToRGB(255, gray, gray, gray);
-                                    bmpGray.setPixel(i,j,newPixel);
-
-                                }
-                            }
-
-                            imageView.setImageBitmap(bmpGray);
-                            sacnLine3(bmpGray);*/
-
-
-
-
-
-
                         }
                         if(tempFile2.exists()){
                             Bitmap bitmap = BitmapFactory.decodeFile(tempFile2.getPath());
@@ -666,29 +624,24 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 Log.e("平滑数据", Arrays.toString(a));
 
                 double[] doubles = DyUtils.dyMath(a);
-              /*  ArrayList<Double> doubles2 = DyUtils.doubles;
-                double[] d=new double[doubles2.size()];
-                for(int i=0;i<doubles2.size();i++){
-                    d[i]=doubles2.get(i);
-                }*/
 
+                int[] index = DyUtils.index;
 
-              /*  int[][] waveInfo = DyUtils.getWaveInfo(a, 1, 12);
+                for(int i=0;i<doubles.length;i++){
 
+                    LogPrint.e("坐标"+index[i]+"值"+doubles[i]);
+                }
 
-                for(int i=0;i<waveInfo.length;i++){
-                    Log.e("--------------------B",waveInfo[i][0]+","+waveInfo[i][1]+","+waveInfo[i][2]);
-                    //System.out.println(waveInfo[i][0]+","+waveInfo[i][1]+","+waveInfo[i][2]);
-                }*/
-            //    tvResult.setText(waveInfo.length);
-              /*  if(waveInfo.length>=2){
-                    Toast.makeText(getApplicationContext(),"阴性",Toast.LENGTH_SHORT).show();
-                }else if(waveInfo.length==1){
-                    Toast.makeText(getApplicationContext(),"阳性",Toast.LENGTH_SHORT).show();
-                }*/
+                if(doubles[0]!=0&&doubles[1]!=0) {
+                    tvResult.setText("阴性");
 
+                }else if(doubles[0]!=0&&doubles[1]==0){
+                    tvResult.setText("阳性");
+                }else{
+                    tvResult.setText("无效");
 
-                //Log.e("最终结果",doubles[0]+"----"+doubles[1]);
+                }
+
 
                 ArrayList<Double> doubles1 = DyUtils.doubles;
 

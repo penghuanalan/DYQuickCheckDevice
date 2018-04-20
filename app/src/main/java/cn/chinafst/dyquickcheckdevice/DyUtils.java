@@ -175,7 +175,7 @@ public class DyUtils {
 
 
 	//传入参数 : usefulTemp 起始结束区间赋0的数组 ,m 指定多项式
-	public static double[] duoXiangShi(double[] usefulTemp,int m) {
+	private static double[] duoXiangShi(double[] usefulTemp,int m) {
 
 		double[][] a = new double[m][m];
 		double[] b = new double[m];
@@ -232,7 +232,7 @@ public class DyUtils {
 		return temp3;
 	}
 
-	public static double[][] getMatrix(double[][] arr) {
+	private static double[][] getMatrix(double[][] arr) {
 		double abs=getJuZhengMo(arr);
 		if(abs==0){
 			System.out.println("数据错误");
@@ -299,7 +299,7 @@ public class DyUtils {
 		}
 		return val;
 	}
-	public static double[][] getYuZiXizang(double[][] arr) {
+	private static double[][] getYuZiXizang(double[][] arr) {
 
 		int cols=arr.length;
 		int rows=arr[0].length;
@@ -322,7 +322,7 @@ public class DyUtils {
 	}
 
 	//获取有用数据
-	public static double[] getUserFulData(double[] arr) {
+	private static double[] getUserFulData(double[] arr) {
 		//通过定义的开始/结束点(34,205) 前后10个点 找出 最小值
 		/*int dStart=34,dEnd=205,space=15,defultEndSpace=60,defultStartSpace=50;
 
@@ -441,8 +441,8 @@ public class DyUtils {
 				}
 			}else{
 
-				//System.out.println("value[1] "+value[1]+"pinjun "+pinjun+"center "+center +"end "+end);
-				if(value[1]<pinjun&&center-index[0]>30&&center-index[0]<65&&(center<=105||pinjun>=0.05)){
+				//if(value[1]<pinjun&&center-index[0]>30){
+				if(value[1]<pinjun&&center-index[0]>first.length*0.15){
 					value[1]=pinjun;
 					index[1]=center;
 				}
@@ -536,7 +536,7 @@ public class DyUtils {
 	/*
 	 * 小波分解
 	 * */
-	public static  double[] DB4WDT(double[] pBuf) {
+	private static  double[] DB4WDT(double[] pBuf) {
 
 		double[] h = { 0.230378, 0.714847, 0.630881, -0.027984, -0.187035, 0.030841, 0.032883, -0.010597 };
 		double[] g = { -0.010597, -0.032883, 0.030841, 0.187035, -0.027984, -0.630881, 0.714847, -0.230378 };
@@ -581,7 +581,7 @@ public class DyUtils {
 	 * 重构
 	 * */
 
-	public static double[] DB4IWDT(double[] pBuf) {
+	private static double[] DB4IWDT(double[] pBuf) {
 
 
 		double[] h1 = { -0.010597, 0.032883, 0.030841, -0.187035, -0.027984, 0.630881, 0.714847, 0.230378 };

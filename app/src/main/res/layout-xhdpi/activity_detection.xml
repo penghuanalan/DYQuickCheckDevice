@@ -382,12 +382,6 @@
             android:id="@+id/chartView"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chartView2"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -421,6 +415,45 @@
                 android:textColor="@color/mainMenuTextColor"
                 android:textSize="@dimen/textMiddle" />
         </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartView2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="right"
+                android:padding="@dimen/commonPadingMid"
+                android:text="@string/checkResult2"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMin" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/mainCenter" />
+
+            <TextView
+                android:id="@+id/tv_check_result2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/commonPadingMix"
+                android:layout_weight="5"
+                android:background="@color/white"
+                android:onClick="onClick"
+                android:padding="@dimen/commonPadingMid"
+                android:textColor="@color/mainMenuTextColor"
+                android:textSize="@dimen/textMiddle" />
+        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

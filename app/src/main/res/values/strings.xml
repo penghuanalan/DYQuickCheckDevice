@@ -22,7 +22,8 @@
     <string name="standNmae">检测标准</string>
     <string name="sampleDate">抽样日期</string>
     <string name="opeName">档口名称</string>
-    <string name="checkResult">检测结果</string>
+    <string name="checkResult">通道一检测结果</string>
+    <string name="checkResult2">通道二检测结果</string>
     <string name="conclution">检测结论</string>
     <string name="opeNum">档口编号</string>
     <string name="unitName">被检单位</string>
