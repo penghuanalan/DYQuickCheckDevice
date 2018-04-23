@@ -9,11 +9,7 @@ import android.content.IntentFilter;
 import android.device.ScanDevice;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.posapi.PosApi;
@@ -21,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,7 +43,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
 import cn.chinafst.dyquickcheckdevice.bean.CheckRecordBean;
 import cn.chinafst.dyquickcheckdevice.bean.MyFFT;
 import okhttp3.Call;
@@ -68,6 +64,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     private String foodCode="",sampleNo="",sampleNo2="";
     private boolean ifTwoChannel=false;
     private LinearLayout llItem2;
+    private Button bt01,bt02,bt03,bt04;
 
     //抽样单号
     private String sampleNum="";
@@ -92,9 +89,9 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         imageView2 = findViewById(R.id.iv_singin2);
         imageView2.setVisibility(View.GONE);
         chartView = findViewById(R.id.chartView);
+        chartView.setVisibility(View.GONE);
 
         chartView2 = findViewById(R.id.chartView2);
-
         chartView2.setVisibility(View.GONE);
         tvItem = findViewById(R.id.tv_item);
         tvItem2 = findViewById(R.id.tv_item2);
@@ -110,13 +107,27 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         tvSampleDate = findViewById(R.id.tv_sample_date);
         tvResult=findViewById(R.id.tv_check_result);
         tvResult2=findViewById(R.id.tv_check_result2);
+
+        bt01=findViewById(R.id.bt_01);
+        bt02=findViewById(R.id.bt_02);
+        bt03=findViewById(R.id.bt_03);
+        bt04=findViewById(R.id.bt_04);
+
+        bt03.setVisibility(View.VISIBLE);
+        bt04.setVisibility(View.VISIBLE);
+        bt03.setText("上传");
+        bt04.setText("打印");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        checkTime = formatter.format(curDate);
+
     }
 
     private void initChartView() {
         chartView.setTouchEnabled(true);
         chartView.setDragEnabled(true);
         chartView.setScaleEnabled(true);
-
 
         chartView2.setTouchEnabled(true);
         chartView2.setDragEnabled(true);
@@ -148,11 +159,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         super.onResume();
 
         if (CheckDeviceApplication.isDesign) {
-
-               /* initScan();
-                initPrint();*/
-
-
             IntentFilter filter = new IntentFilter();
             filter.addAction(SCAN_ACTION);
             registerReceiver(mScanReceiver, filter);
@@ -193,6 +199,12 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 startActivityForResult(intent,200);
 
                 break;
+            case R.id.bt_03:
+                upLoadRecord();
+                break;
+            case R.id.bt_04:
+                doPrint();
+                break;
             default:
                 break;
         }
@@ -204,9 +216,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
 
             case 100:
                 if (resultCode == RESULT_OK) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date curDate = new Date(System.currentTimeMillis());
-                    checkTime = formatter.format(curDate);
+
 
                     String path = data.getStringExtra("path");
 
@@ -215,9 +225,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
 
                     imageView.setImageBitmap(bitmap);
                     sacnLine(bitmap);
-                    //打印
-                   // doPrint();
-
                    /* if (CheckDeviceApplication.isDesign) {
                         if (!sm.isScanOpened()) {
                             sm.openScan();
@@ -460,6 +467,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 LineData data = new LineData(set1);
 
                 // set data
+                chartView.setVisibility(View.VISIBLE);
                 chartView.setData(data);
 
                 saveCheckRecord();
@@ -488,7 +496,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 Log.e("原始数据",sb.toString());
                 String[] split = sb.toString().split(",");
 
-                //603-2277
+
 
                 int count=(int)(split.length*0.4-10);
                 int length=(int)(split.length*0.2);
@@ -540,7 +548,9 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 LineData data = new LineData(set1);
 
                 // set data
+                chartView2.setVisibility(View.VISIBLE);
                 chartView2.setData(data);
+                chartView2.invalidate();
 
                 saveCheckRecord();
                 //上传数据
@@ -569,8 +579,8 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 }*/
 
                 //这里改为逐行扫描
-                int getHeight=(int)(height*0.38);
-                int endHeight=(int)(height*0.58);
+                int getHeight=(int)(height*0.39);
+                int endHeight=(int)(height*0.57);
 
                 int getWidght=width/3;
                 int endWidght=width*2/3;
@@ -632,11 +642,11 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                     LogPrint.e("坐标"+index[i]+"值"+doubles[i]);
                 }
 
-                if(doubles[0]!=0&&doubles[1]!=0) {
-                    tvResult.setText("阴性");
+                if(doubles[0]>=0.008&&doubles[1]>=0.008) {
+                    tvResult.setText("阴性"+"(坐标"+index[1]+"值"+ String .format("%.3f",doubles[1])+")");
 
-                }else if(doubles[0]!=0&&doubles[1]==0){
-                    tvResult.setText("阳性");
+                }else if(doubles[0]>=0.008&&doubles[1]<0.008){
+                    tvResult.setText("阳性"+"(坐标"+index[1]+"值"+String .format("%.3f",doubles[1])+")");
                 }else{
                     tvResult.setText("无效");
 
@@ -657,6 +667,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 }
                 ArrayList<Entry> yVals = new ArrayList<Entry>();
                 for (int i = 0; i < s.length; i++) {
+                    //yVals.add(new Entry(i, (float) a[i]));
                     yVals.add(new Entry(i, (float) a[i]));
 
                 }
@@ -670,6 +681,7 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
                 LineData data = new LineData(set1);
 
                 // set data
+                chartView.setVisibility(View.VISIBLE);
                 chartView.setData(data);
                 chartView.invalidate();
 
@@ -681,11 +693,6 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         }.execute(bitmap);
 
     }
-
-
-
-
-
 
 
     private void saveCheckRecord() {
@@ -803,15 +810,26 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
             sb = new StringBuilder();
            /* sb.append(name.getIndex());
             sb.append("\n");*/
+           sb.append("手持式食品安全检测仪");
+            sb.append("\n");
             sb.append("检测项目:" + tvItem.getText().toString().trim());
             sb.append("\n");
             sb.append("样品名称:" + tvSample.getText());
             sb.append("\n");
-            sb.append("检测结果:阴性");
+            sb.append("检测结果:"+tvResult.getText());
             sb.append("\n");
-            sb.append("检测结论:合格");
+
+            if(tvResult.getText().equals("阴性")){
+                sb.append("检测结论:合格");
+            }else{
+                sb.append("检测结论:不合格");
+            }
+
             sb.append("\n");
             sb.append("检测时间:" + checkTime);
+            sb.append("\n");
+
+            sb.append("检测人:一号检测员");
             sb.append("\n");
             sb.append("------------------------------");
             sb.append("\n");
@@ -837,13 +855,18 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         List<HashMap<String,String>> items=new ArrayList<>();
         HashMap<String,String> map= new HashMap<>();
         map.put("sampleNo",sampleNo);
-        map.put("checkResult","阴性");
+        map.put("checkResult",tvResult.getText().toString());
         map.put("foodCode",foodCode);
         map.put("foodName",tvSample.getText().toString().trim());
         map.put("checkItemName",tvItem.getText().toString().trim());
         map.put("checkMethod","胶体金法");
         map.put("sysCode",uuid);
-        map.put("checkConclusion","合格");
+        if(tvResult.getText().toString().equals("阴性")){
+            map.put("checkConclusion","合格");
+        }else{
+            map.put("checkConclusion","不合格");
+        }
+
         map.put("checkDate",checkTime);
         HashMap<String,Object> second=new HashMap<>();
         second.put("sampleNO",sampleNum);

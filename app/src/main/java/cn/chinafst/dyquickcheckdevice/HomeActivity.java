@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
     private GridView gridView;
     private String[] names={"胶体金检测","干化学检测","查询记录","样品查询","项目查询","视频教程"};
-    private  int[] images={R.drawable.index_menu01_01,R.drawable.index_menu02_on,R.drawable.index_menu01_05,R.drawable.index_menu02_01,R.drawable.index_menu02_02,R.drawable.index_menu02_03,R.drawable.index_menu02_05};
+    private  int[] images={R.drawable.index1,R.drawable.index2,R.drawable.index3,R.drawable.index4,R.drawable.index5,R.drawable.index6,R.drawable.index_menu02_05};
     private Context context;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

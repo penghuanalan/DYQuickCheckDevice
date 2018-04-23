@@ -421,8 +421,6 @@ public class DyUtils {
 		double[] value= new double[2];
 		for(int i=0;i<waveInfo.length;i++){
 
-
-
 			int start =waveInfo[i][0];
 			int center =waveInfo[i][1];
 			int end =waveInfo[i][2];
@@ -442,7 +440,7 @@ public class DyUtils {
 			}else{
 
 				//if(value[1]<pinjun&&center-index[0]>30){
-				if(value[1]<pinjun&&center-index[0]>first.length*0.15){
+				if(value[1]<pinjun&&center-index[0]>first.length*0.15&&center<first.length*0.9){
 					value[1]=pinjun;
 					index[1]=center;
 				}
