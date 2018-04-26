@@ -16,14 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import cn.chinafst.dyquickcheckdevice.bean.CheckRecordBean;
 import cn.chinafst.dyquickcheckdevice.bean.CheckRecordBeanDao;
 import zyapi.PrintQueue;
@@ -49,7 +46,7 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
         llBottom.setVisibility(View.GONE);
         initData();
         initButton();
-        if(CheckDeviceApplication.isDesign){
+        if (CheckDeviceApplication.isDesign) {
             initPrint();
         }
 
@@ -98,18 +95,18 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.bt_01:
 
-                if(CheckDeviceApplication.isDesign){
+                if (CheckDeviceApplication.isDesign) {
                     doPrint(selected);
-                }else{
-                    Toast.makeText(getApplicationContext(),"请使用专用设备",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "请使用专用设备", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
             case R.id.bt_02:
-                if(selected.size()>0){
-                    Utils.upLoadRecord(selected);
-                }else{
-                    Toast.makeText(getApplicationContext(),"请先选择检测记录",Toast.LENGTH_SHORT).show();
+                if (selected.size() > 0) {
+                    Utils.upLoadRecord(context,selected);
+                } else {
+                    Toast.makeText(getApplicationContext(), "请先选择检测记录", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -120,24 +117,24 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.bt_04:
-                List<String> list= new ArrayList<>();
+                List<String> list = new ArrayList<>();
                 list.add("检测项目");
                 list.add("样品名称");
                 list.add("检测结果");
                 list.add("检测结论");
                 list.add("检测时间");
-                for(CheckRecordBean bean:selected){
-                   list.add(bean.getItem_name());
-                   list.add(bean.getFood_name());
-                   list.add(bean.getCheck_result());
-                   list.add(bean.getConclusion());
-                   list.add(bean.getCheck_date());
+                for (CheckRecordBean bean : selected) {
+                    list.add(bean.getItem_name());
+                    list.add(bean.getFood_name());
+                    list.add(bean.getCheck_result());
+                    list.add(bean.getConclusion());
+                    list.add(bean.getCheck_date());
                 }
-                boolean success=Utils.ExpordCheckReocrd(list);
-                if(success){
-                    Toast.makeText(getApplicationContext(),"导出成功",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(),"导出失败,请重试",Toast.LENGTH_SHORT).show();
+                boolean success = Utils.ExpordCheckReocrd(list);
+                if (success) {
+                    Toast.makeText(getApplicationContext(), "导出成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "导出失败,请重试", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -193,7 +190,6 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
             }
 
 
-
             holder.tv01.setText("检测项目:" + list.get(i).getItem_name());
             holder.tv02.setText("样品名称:" + list.get(i).getFood_name());
             holder.tv03.setText("检测值:" + list.get(i).getCheck_result());
@@ -209,25 +205,26 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
     }
 
     class CheckRecordHolder {
-        public TextView tv01, tv02, tv03,tv04,tv05;
+        public TextView tv01, tv02, tv03, tv04, tv05;
         public CheckBox checkBox;
 
 
     }
 
-    public void doPrint(List<CheckRecordBean> list){
-        StringBuilder sb=new StringBuilder(); ;
+    public void doPrint(List<CheckRecordBean> list) {
+        StringBuilder sb = new StringBuilder();
+        ;
         byte[] text;
         byte[] _2x = new byte[]{0x1b, 0x57, 0x02};
         byte[] _1x = new byte[]{0x1b, 0x57, 0x01};
-        for(CheckRecordBean bean:list){
+        for (CheckRecordBean bean : list) {
             sb.append("检测项目:" + bean.getItem_name());
             sb.append("\n");
             sb.append("样品名称:" + bean.getFood_name());
             sb.append("\n");
-            sb.append("检测结果:"+bean.getCheck_result());
+            sb.append("检测结果:" + bean.getCheck_result());
             sb.append("\n");
-            sb.append("检测结论:"+bean.getConclusion());
+            sb.append("检测结论:" + bean.getConclusion());
             sb.append("\n");
             sb.append("检测时间:" + bean.getCheck_date());
             sb.append("\n");
@@ -251,8 +248,8 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
 
-
     }
+
     private void initPrint() {
         //1  单片机上电
         try {
@@ -277,8 +274,6 @@ public class CheckRecordActivity extends AppCompatActivity implements View.OnCli
         mPrintQueue = new PrintQueue(this, mApi);
         mPrintQueue.init();
     }
-
-
 
 
 }

@@ -3,8 +3,7 @@ package cn.chinafst.dyquickcheckdevice;
 
 import java.util.ArrayList;
 
-public class DyUtils {
-
+public class DyUtilsOrign {
 
 	/*获取一段数据的波谷信息
 	 * origin 处理的原始数组
@@ -66,8 +65,7 @@ public class DyUtils {
 				temp[j]=origin1[j+i-point];
 			}
 			int arrSum = getArrSum(temp, wave);
-			//这里修改为	if(arrSum>=point*2-1){
-			if(arrSum>=point*2-2){
+			if(arrSum>=point*2-1){
 				boguPoint.add(i);
 				i=i+point;
 			}
@@ -175,7 +173,7 @@ public class DyUtils {
 
 
 	//传入参数 : usefulTemp 起始结束区间赋0的数组 ,m 指定多项式
-	private static double[] duoXiangShi(double[] usefulTemp,int m) {
+	public static double[] duoXiangShi(double[] usefulTemp,int m) {
 
 		double[][] a = new double[m][m];
 		double[] b = new double[m];
@@ -232,7 +230,7 @@ public class DyUtils {
 		return temp3;
 	}
 
-	private static double[][] getMatrix(double[][] arr) {
+	public static double[][] getMatrix(double[][] arr) {
 		double abs=getJuZhengMo(arr);
 		if(abs==0){
 			System.out.println("数据错误");
@@ -299,7 +297,7 @@ public class DyUtils {
 		}
 		return val;
 	}
-	private static double[][] getYuZiXizang(double[][] arr) {
+	public static double[][] getYuZiXizang(double[][] arr) {
 
 		int cols=arr.length;
 		int rows=arr[0].length;
@@ -322,7 +320,7 @@ public class DyUtils {
 	}
 
 	//获取有用数据
-	private static double[] getUserFulData(double[] arr) {
+	public static double[] getUserFulData(double[] arr) {
 		//通过定义的开始/结束点(34,205) 前后10个点 找出 最小值
 		/*int dStart=34,dEnd=205,space=15,defultEndSpace=60,defultStartSpace=50;
 
@@ -374,7 +372,7 @@ public class DyUtils {
 		}
 
 
-		return arr;
+		return useful;
 	}
 
 	/*返回两个波 波峰到起始点/结束点 斜率对应值的差值
@@ -408,7 +406,7 @@ public class DyUtils {
 
 
 		//ph0122
-		int[][] waveInfo = getWaveInfo(result,0.00005,7);
+		int[][] waveInfo = getWaveInfo(result,0.0005,4);
 
 
 
@@ -420,6 +418,8 @@ public class DyUtils {
 		System.out.println("最终波谷"+buffer4.toString());*/
 		double[] value= new double[2];
 		for(int i=0;i<waveInfo.length;i++){
+
+
 
 			int start =waveInfo[i][0];
 			int center =waveInfo[i][1];
@@ -439,8 +439,8 @@ public class DyUtils {
 				}
 			}else{
 
-				//if(value[1]<pinjun&&center-index[0]>30){
-				if(value[1]<pinjun&&center-index[0]>first.length*0.15&&center<first.length*0.9){
+				//System.out.println("value[1] "+value[1]+"pinjun "+pinjun+"center "+center +"end "+end);
+				if(value[1]<pinjun&&center-index[0]>10&&center-index[0]<35){
 					value[1]=pinjun;
 					index[1]=center;
 				}
@@ -450,7 +450,8 @@ public class DyUtils {
 		return value;
 	}
 	public static double[]  dyMath(double[] orign) {
-
+				index[0]=0;
+				index[1]=0;
 		//平滑处理
 		double[] db4wdt = DB4WDT(orign);
 		double[] dbflt =DBFLT(db4wdt);
@@ -467,17 +468,22 @@ public class DyUtils {
 		for(int i=0;i<db4iwdt.length;i++) {
 			td1[i]=db4iwdt[i];
 		}
-		double[] newArray =DB4IWDT(td1);
+		double[] arr =DB4IWDT(td1);
 		//平滑处理
 
-		int[][] bogu = DyUtils.getWaveInfo(newArray, 1, 7);
+		double[] newArray=DyUtilsOrign.getUserFulData(arr);
+
+		int[][] bogu = DyUtilsOrign.getWaveInfo(newArray, 1, 4);
+		for(int k=0;k<bogu.length;k++) {
+			System.out.print("bogu"+bogu[k]+"");
+		}
 
 		ArrayList<int[][]> list = new ArrayList<>();
 
 		try {
 
 			for(int i=0;i<bogu.length;i++) {
-				if((newArray[bogu[i][0]]-newArray[bogu[i][1]])/(bogu[i][1]-bogu[i][0])>30&&(newArray[bogu[i][2]]-newArray[bogu[i][1]])/(bogu[i][2]-bogu[i][1])>30) {
+				if((newArray[bogu[i][0]]-newArray[bogu[i][1]])/(bogu[i][1]-bogu[i][0])>4&&(newArray[bogu[i][2]]-newArray[bogu[i][1]])/(bogu[i][2]-bogu[i][1])>4) {
 					int[][] tem= new int[1][3];
 					tem[0][0]=bogu[i][0];
 					tem[0][1]=bogu[i][1];
@@ -516,14 +522,14 @@ public class DyUtils {
 
 		}
 
-		double[] duoXiangShi = DyUtils.duoXiangShi(temp2,5);
+		double[] duoXiangShi = DyUtilsOrign.duoXiangShi(temp2,5);
 		/*StringBuffer buffer3= new StringBuffer();
 		for(int i=0;i<duoXiangShi.length;i++){
 			buffer3.append(duoXiangShi[i]+",");
 		}
 		System.out.println("多项式"+buffer3.toString());*/
 
-		double[] pointValue = DyUtils.getPointValue(newArray, duoXiangShi);
+		double[] pointValue = DyUtilsOrign.getPointValue(newArray, duoXiangShi);
 
 		return pointValue;
 	}
@@ -531,7 +537,7 @@ public class DyUtils {
 	/*
 	 * 小波分解
 	 * */
-	private static  double[] DB4WDT(double[] pBuf) {
+	public static  double[] DB4WDT(double[] pBuf) {
 
 		double[] h = { 0.230378, 0.714847, 0.630881, -0.027984, -0.187035, 0.030841, 0.032883, -0.010597 };
 		double[] g = { -0.010597, -0.032883, 0.030841, 0.187035, -0.027984, -0.630881, 0.714847, -0.230378 };
@@ -576,7 +582,7 @@ public class DyUtils {
 	 * 重构
 	 * */
 
-	private static double[] DB4IWDT(double[] pBuf) {
+	public static double[] DB4IWDT(double[] pBuf) {
 
 
 		double[] h1 = { -0.010597, 0.032883, 0.030841, -0.187035, -0.027984, 0.630881, 0.714847, 0.230378 };
@@ -614,5 +620,4 @@ public class DyUtils {
 		}
 		return rtn;
 	}
-
 }

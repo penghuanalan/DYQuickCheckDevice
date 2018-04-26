@@ -1,7 +1,9 @@
 package cn.chinafst.dyquickcheckdevice;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -29,7 +31,7 @@ public class Utils {
 
 
 
-    public static void upLoadRecord(List<CheckRecordBean> orign){
+    public static void upLoadRecord(Context context, List<CheckRecordBean> orign){
 
         ArrayList<HashMap<String,Object>> list=new ArrayList<>();
         for(CheckRecordBean bean :orign){
@@ -68,6 +70,11 @@ public class Utils {
             @Override
             public void onResponse(String response, int id) {
                 Log.e("上传",response);
+
+                if(response!=null&&response.contains("操作成功")){
+
+
+                }
             }
         });
     }

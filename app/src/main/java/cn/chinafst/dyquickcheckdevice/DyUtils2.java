@@ -3,7 +3,7 @@ package cn.chinafst.dyquickcheckdevice;
 
 import java.util.ArrayList;
 
-public class DyUtils {
+public class DyUtils2 {
 
 
 	/*获取一段数据的波谷信息
@@ -440,7 +440,7 @@ public class DyUtils {
 			}else{
 
 				//if(value[1]<pinjun&&center-index[0]>30){
-				if(value[1]<pinjun&&center-index[0]>first.length*0.15&&center<first.length*0.9){
+				if(value[1]<pinjun&&center-index[0]>first.length*0.15&&center<first.length*0.95){
 					value[1]=pinjun;
 					index[1]=center;
 				}
@@ -451,6 +451,8 @@ public class DyUtils {
 	}
 	public static double[]  dyMath(double[] orign) {
 
+		index[0]=0;
+		index[1]=0;
 		//平滑处理
 		double[] db4wdt = DB4WDT(orign);
 		double[] dbflt =DBFLT(db4wdt);
@@ -470,7 +472,7 @@ public class DyUtils {
 		double[] newArray =DB4IWDT(td1);
 		//平滑处理
 
-		int[][] bogu = DyUtils.getWaveInfo(newArray, 1, 7);
+		int[][] bogu = DyUtils2.getWaveInfo(newArray, 1, 7);
 
 		ArrayList<int[][]> list = new ArrayList<>();
 
@@ -516,14 +518,14 @@ public class DyUtils {
 
 		}
 
-		double[] duoXiangShi = DyUtils.duoXiangShi(temp2,5);
+		double[] duoXiangShi = DyUtils2.duoXiangShi(temp2,5);
 		/*StringBuffer buffer3= new StringBuffer();
 		for(int i=0;i<duoXiangShi.length;i++){
 			buffer3.append(duoXiangShi[i]+",");
 		}
 		System.out.println("多项式"+buffer3.toString());*/
 
-		double[] pointValue = DyUtils.getPointValue(newArray, duoXiangShi);
+		double[] pointValue = DyUtils2.getPointValue(newArray, duoXiangShi);
 
 		return pointValue;
 	}

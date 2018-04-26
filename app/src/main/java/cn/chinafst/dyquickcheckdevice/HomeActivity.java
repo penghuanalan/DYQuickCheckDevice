@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
     private GridView gridView;
-    private String[] names={"胶体金检测","干化学检测","查询记录","样品查询","项目查询","视频教程"};
+    private String[] names={"胶体金检测","干化学检测","查询记录","数据中心","视频教程","个人中心"};
     private  int[] images={R.drawable.index1,R.drawable.index2,R.drawable.index3,R.drawable.index4,R.drawable.index5,R.drawable.index6,R.drawable.index_menu02_05};
     private Context context;
     @Override
@@ -41,14 +41,17 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, CheckRecordActivity.class));
                         break;
                     case 3:
-                        startActivity(new Intent(HomeActivity.this,FoodItemActivity.class));
+
+                        startActivity(new Intent(HomeActivity.this,DataCenterActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this,FoodItemActivity.class));
                         break;
                     case 4:
-                        startActivity(new Intent(HomeActivity.this,CheckItemActivity.class));
+                        startActivity(new Intent(HomeActivity.this,StudyVideoActivity.class));
                         break;
 
                     case 5:
-                        startActivity(new Intent(HomeActivity.this,StudyVideoActivity.class));
+
+                        startActivity(new Intent(HomeActivity.this,MyCenterActivity.class));
                         break;
                         default:break;
 

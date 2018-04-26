@@ -109,4 +109,11 @@
 
     </LinearLayout>
 
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:text="技术支持"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>
