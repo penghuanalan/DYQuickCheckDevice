@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,7 +61,8 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     private ScanDevice sm;
     private final static String SCAN_ACTION = "scan.rcv.message";
     private LineChart chartView, chartView2;
-    private TextView tvItem, tvItem2, tvSample, tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum, tvResult, tvResult2;
+    private TextView   tvUnitNmae, tvOpeName, tvOpeNum, tvSampleDate, tvSampleNum, tvResult, tvResult2;
+    private EditText  tvSample,tvItem,tvItem2;
     private PosApi mApi = null;
     private PrintQueue mPrintQueue = null;
     private String checkTime = "";
@@ -120,10 +122,12 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
         bt03 = findViewById(R.id.bt_03);
         bt04 = findViewById(R.id.bt_04);
 
+        bt02.setVisibility(View.VISIBLE);
         bt03.setVisibility(View.VISIBLE);
         bt04.setVisibility(View.VISIBLE);
-        bt03.setText("上传");
-        bt04.setText("打印");
+        bt02.setText("上传");
+        bt03.setText("打印");
+        bt04.setText("返回");
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());
@@ -198,10 +202,14 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
 
                 break;
             case R.id.bt_03:
-                upLoadRecord();
+                doPrint();
                 break;
             case R.id.bt_04:
-                doPrint();
+                finish();
+                break;
+
+            case R.id.bt_02:
+                upLoadRecord();
                 break;
             default:
                 break;
@@ -1102,23 +1110,22 @@ public class DetectionActivity extends AppCompatActivity implements View.OnClick
     private void doPrint() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("  ");
+
         sb.append("检测结果");
         byte[] text;
         try {
-            text = sb.toString().getBytes("GBK");
+           // text = sb.toString().getBytes("GBK");
             byte[] _2x = new byte[]{0x1b, 0x57, 0x02};
             byte[] _1x = new byte[]{0x1b, 0x57, 0x01};
-            byte[] mData = new byte[3 + text.length];
+            //byte[] mData = new byte[3 + text.length];
             //1倍字体大小  默认
-            System.arraycopy(_2x, 0, mData, 0, _2x.length);
-            System.arraycopy(text, 0, mData, _2x.length, text.length);
-            mPrintQueue.addText(60, mData);
+          //  System.arraycopy(_2x, 0, mData, 0, _2x.length);
+           // System.arraycopy(text, 0, mData, _2x.length, text.length);
+           // mPrintQueue.addText(60, mData);
 
             sb = new StringBuilder();
-           /* sb.append(name.getIndex());
-            sb.append("\n");*/
-
+            sb.append("          检测结果");
+            sb.append("\n");
             sb.append("样品名称:" + tvSample.getText());
             sb.append("\n");
             if (ifTwoChannel) {

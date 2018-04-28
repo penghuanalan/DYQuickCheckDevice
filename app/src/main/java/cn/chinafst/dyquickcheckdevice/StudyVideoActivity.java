@@ -106,6 +106,7 @@ public class StudyVideoActivity extends AppCompatActivity {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Toast.makeText(context,"暂无网络",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
                 checkData();
             }
 

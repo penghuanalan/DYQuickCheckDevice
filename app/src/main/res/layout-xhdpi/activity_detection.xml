@@ -56,7 +56,6 @@
                 android:layout_weight="5"
                 android:background="@color/white"
                 android:clickable="true"
-                android:drawableRight="@drawable/arrow_right"
                 android:onClick="onClick"
                 android:padding="@dimen/commonPadingMid"
                 android:textColor="@color/mainMenuTextColor"
@@ -238,16 +237,13 @@
                     android:layout_height="match_parent"
                     android:background="@color/mainCenter" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_sample"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
                     android:layout_weight="5"
                     android:background="@color/white"
-                    android:clickable="true"
-                    android:drawableRight="@drawable/arrow_right"
-                    android:onClick="onClick"
                     android:padding="@dimen/commonPadingMid"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMiddle" />
@@ -274,16 +270,13 @@
                     android:layout_height="match_parent"
                     android:background="@color/mainCenter" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_item"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/commonPadingMix"
                     android:layout_weight="5"
                     android:background="@color/white"
-                    android:clickable="true"
-                    android:drawableRight="@drawable/arrow_right"
-                    android:onClick="onClick"
                     android:padding="@dimen/commonPadingMid"
                     android:textColor="@color/mainMenuTextColor"
                     android:textSize="@dimen/textMiddle" />
@@ -313,7 +306,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/mainCenter" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_item2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
